@@ -7,8 +7,10 @@
 <body>
   <h1>Text Conversion Tool</h1>
   <textarea id="input" placeholder="Enter text here"></textarea>
+  <button id="autodetect">Auto</button>
   <select id="conversionType">
     <option value="base64Encode">Base64 Encode</option>
+    <option value="base64Decode">Base64 Decode</option>
     <option value="htmlEncode">HTML Encode</option>
     <option value="htmlDecode">HTML Decode</option>
     <option value="urlEncode">URL Encode</option>
@@ -20,7 +22,9 @@
     <option value="asciiToUnicode">ASCII to Unicode</option>
   </select>
   <button id="convert">Convert</button>
+  <button id="copyToInput"> <img src="ArrowUp.png" alt="Copy to Input" width="24" height="24"></button>
   <textarea id="output" readonly></textarea>
+  
   <script src="popup.js"></script>
 </body>
 </html>

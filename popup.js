@@ -3,6 +3,22 @@
   const outputText = document.getElementById('output');
   const conversionType = document.getElementById('conversionType');
   const convertButton = document.getElementById('convert');
+  const copyToInputButton = document.getElementById('copyToInput');
+  const autodetectButton = document.getElementById('autodetect');
+
+  
+  if (copyToInputButton) {
+    copyToInputButton.addEventListener('click', function() {
+      const outputText = document.getElementById('output').value;
+      document.getElementById('input').value = outputText;
+    });
+  }
+  autodetectButton.addEventListener('click', function() {
+    const input = inputText.value;
+    const conversion = conversionType.value;
+    const detectedType = detectConversionType(input,conversion);
+    conversionType.value = detectedType;
+  });
 
   convertButton.addEventListener('click', function() {
     const input = inputText.value;
@@ -13,11 +29,8 @@
       case 'base64Encode':
         result = btoa(unescape(encodeURIComponent(input)));
         break;
-      case 'rtlToLtr':
-        result = input.split('').reverse().join('');
-        break;
-      case 'ltrToRtl':
-        result = input.split('').reverse().join('');
+      case 'base64Decode':
+        result = decodeURIComponent(escape(atob(input)));
         break;
       case 'htmlEncode':
         result = input.replace(/[&<>"']/g, function(m) {
@@ -76,6 +89,19 @@
       'ז': 'z', 'ס': 'x', 'ב': 'c', 'ה': 'v', 'נ': 'b', 'מ': 'n', 'צ': 'm', 'ת': ',', 'ץ': '.'
     };
     return text.split('').map(char => hebToEngMap[char] || char).join('');
+  }
+  function detectConversionType(input,conversion) {
+    if (/\\u[0-9a-fA-F]{4}/.test(input)) {
+      return 'unicodeToAscii'; // Unicode escape sequence detected
+    } else if (/&[a-zA-Z]+;/.test(input)) {
+      return 'htmlDecode'; // HTML entity detected
+    } else if (/%[0-9a-fA-F]{2}/.test(input)) {
+      return 'urlDecode'; // URL encoding detected
+    } else if (/^[A-Za-z0-9+/=]+$/.test(input) && input.length % 4 === 0) {
+      return 'base64Decode'; // Base64 detected
+    } else {
+      return conversion; // No clear pattern detected
+    }
   }
 });
 
