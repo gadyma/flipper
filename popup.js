@@ -1,4 +1,4 @@
-﻿document.addEventListener('DOMContentLoaded', function() {
+﻿document.addEventListener('DOMContentLoaded', async function() {
   const inputText = document.getElementById('input');
   const outputText = document.getElementById('output');
   const conversionType = document.getElementById('conversionType');
@@ -6,6 +6,24 @@
   const copyToInputButton = document.getElementById('copyToInput');
   const autodetectButton = document.getElementById('autodetect');
 
+  // Get selected text from active tab when popup opens
+  try {
+    const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+    
+    // Skip browser internal pages
+    if (tab.url && !tab.url.startsWith('chrome://') && !tab.url.startsWith('edge://')) {
+      const result = await chrome.scripting.executeScript({
+        target: {tabId: tab.id},
+        function: () => window.getSelection().toString()
+      });
+      
+      if (result[0].result) {
+        inputText.value = result[0].result;
+      }
+    }
+  } catch (err) {
+    console.error('Failed to get selected text:', err);
+  }
   
   if (copyToInputButton) {
     copyToInputButton.addEventListener('click', function() {
@@ -13,6 +31,7 @@
       document.getElementById('input').value = outputText;
     });
   }
+
   autodetectButton.addEventListener('click', function() {
     const input = inputText.value;
     const conversion = conversionType.value;
@@ -76,6 +95,7 @@
     };
     return text.toLowerCase().split('').map(char => engToHebMap[char] || char).join('');
   }
+
   function unicodeToHebrew(text) {
     return text.replace(/\\u([0-9a-fA-F]{4})/g, (match, p1) => {
       return String.fromCharCode(parseInt(p1, 16));
@@ -90,6 +110,7 @@
     };
     return text.split('').map(char => hebToEngMap[char] || char).join('');
   }
+
   function detectConversionType(input,conversion) {
     if (/\\u[0-9a-fA-F]{4}/.test(input)) {
       return 'unicodeToAscii'; // Unicode escape sequence detected
@@ -104,5 +125,3 @@
     }
   }
 });
-
-
