@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Text Conversion Tool",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A tool for various text conversions and encodings",
   "permissions": ["activeTab"],
   "action": {
