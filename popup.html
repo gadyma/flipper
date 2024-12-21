@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text Conversion Tool</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <h1>Text Conversion Tool</h1>
+  <textarea id="input" placeholder="Enter text here"></textarea>
+  <select id="conversionType">
+    <option value="base64Encode">Base64 Encode</option>
+    <option value="rtlToLtr">RTL to LTR</option>
+    <option value="ltrToRtl">LTR to RTL</option>
+    <option value="htmlEncode">HTML Encode</option>
+    <option value="htmlDecode">HTML Decode</option>
+    <option value="urlEncode">URL Encode</option>
+    <option value="urlDecode">URL Decode</option>
+    <option value="engToHeb">English to Hebrew</option>
+    <option value="hebToEng">Hebrew to English</option>
+    <option value="flipText">Flip Text</option>
+    <option value="unicodeToAscii">Unicode to ASCII</option>
+    <option value="asciiToUnicode">ASCII to Unicode</option>
+  </select>
+  <button id="convert">Convert</button>
+  <textarea id="output" readonly></textarea>
+  <script src="popup.js"></script>
+</body>
+</html>

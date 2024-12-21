@@ -1,0 +1,14 @@
+body {
+  width: 300px;
+  padding: 10px;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+select, button {
+  margin-bottom: 10px;
+}
